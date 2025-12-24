@@ -1,0 +1,43 @@
+name: Build and Test - Classroom
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+
+          sudo apt install -y build-essential default-jdk nasm gdb vim \
+                              python3-pip ninja-build libglib2.0-dev libpixman-1-dev meson \
+                              curl git htop jq locales sudo tzdata wget
+          sudo dpkg --add-architecture i386
+          sudo apt update
+          sudo apt install -y gcc-multilib libc6:i386 libc6-dev-i386
+          sudo apt install -y gcc-riscv64-unknown-elf gcc-riscv64-linux-gnu qemu-user
+          pip install tomli
+
+      - name: Verify toolchain
+        run: |
+          gcc --version
+          gcc -m32 --version
+          nasm -v
+          qemu-riscv64 --version || true
+          riscv64-unknown-elf-gcc --version || true
+          riscv64-linux-gnu-gcc --version || true
+
+      - name: Build project
+        run: make
+
+      - name: Run autograder
+        run: bash run_test.sh
