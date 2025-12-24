@@ -1,13 +1,7 @@
 # Project 2 
 
-Upload the following files:
+Upload all the required files for this project *as well as your own Makefile*.
 
-- `client_driver.c`
-- `client.s`
-- `server_driver.c`
-- `server.asm`
-- `Makefile`
+The autograder will use your Makefile to build your programs, it will then create the required named pipes, and run all the tests.
 
-The autograder will build your programs, create named pipes, run both executables under QEMU, and test the communication.
-
-Do *not* rename the files.
+Please do not use your repository to test your code. If tests reveal bugs, debug and test your changes locally before pushing updates.
