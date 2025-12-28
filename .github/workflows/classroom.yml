@@ -49,7 +49,7 @@ jobs:
       - name: Compare expected output files against template version
         run: |
           for file in expected_output/*; do
-            if ! diff <(curl -s https://raw.githubusercontent.com/CaoilfhionnNiD/CSU34021-ComputerArchitecture-Project2/main/expected_output/$file) expected_output/$file; then
+            if ! diff <(curl -s https://raw.githubusercontent.com/CaoilfhionnNiD/CSU34021-ComputerArchitecture-Project2/main/$file) $file; then
               echo "ERROR: $file has been modified. Autograder will not run."
               exit 1
             fi
