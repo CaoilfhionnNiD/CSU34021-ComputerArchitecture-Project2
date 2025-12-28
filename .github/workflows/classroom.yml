@@ -39,11 +39,29 @@ jobs:
       - name: Build project
         run: make
 
-      - name: Compare against instructor version
+      - name: Compare tests against template version
         run: |
           if ! diff <(curl -s https://raw.githubusercontent.com/CaoilfhionnNiD/CSU34021-ComputerArchitecture-Project2/main/run_test.sh) run_test.sh; then
             echo "ERROR: run_test.sh has been modified. Autograder will not run."
             exit 1
           fi
+
+      - name: Compare expected output files against template version
+        run: |
+          files=("expected_client_output.txt" "expected_output_2.txt" "expected_output_ok.txt" "expected_output_user_exists.txt" "expected_output.txt")
+          for file in expected_output/*; do
+            if ! diff <(curl -s https://raw.githubusercontent.com/CaoilfhionnNiD/CSU34021-ComputerArchitecture-Project2/main/expected_output/$file) expected_output/$file; then
+              echo "ERROR: $file has been modified. Autograder will not run."
+              exit 1
+            fi
+          done
+
+      - name: Compare GitHub Actions workflow file against template version
+        run: |
+          if ! diff <(curl -s https://raw.githubusercontent.com/CaoilfhionnNiD/CSU34021-ComputerArchitecture-Project2/main/.github/workflows/classroom.yml) .github/workflows/classroom.yml; then
+            echo "ERROR: .github/workflows/classroom.yml has been modified. Autograder will not run."
+            exit 1
+          fi
+
       - name: Run autograder
         run: bash run_test.sh
