@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 TOTAL_POINTS=0
 MAX_POINTS=50
@@ -261,7 +260,7 @@ if [[ $STATUS1 -eq 0 && $STATUS2 -eq 0 ]]; then
 
     run_display_wall_test "Display Wall" "qemu-riscv64 ./client $name1 display" "expected_output/expected_output.txt"
 else
-    echo "First two tests failed so remaining tests are not executed"
+    echo "At least one of the first two tests failed, so remaining tests are not executed"
 fi
     echo "Total score: $TOTAL_POINTS/$MAX_POINTS"
 exit 0

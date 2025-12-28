@@ -39,5 +39,11 @@ jobs:
       - name: Build project
         run: make
 
+      - name: Compare against instructor version
+        run: |
+          if ! diff <(curl -s https://raw.githubusercontent.com/CaoilfhionnNiD/CSU34021-ComputerArchitecture-Project2/main/run_test.sh) run_test.sh; then
+            echo "ERROR: run_test.sh has been modified. Autograder will not run."
+            exit 1
+          fi
       - name: Run autograder
         run: bash run_test.sh
